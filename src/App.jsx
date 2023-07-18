@@ -64,8 +64,6 @@ const tempWatchedData = [
 ];
 
 const KEY = "23f80004";
-// const searchQuery = "interstellar";
-// const searchQuery = "interstellar1122344";
 
 let theFunctionWillRun;
 function runAfterTime(fun, time = 500) {
@@ -79,7 +77,7 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState(tempWatchedData);
-  const [selectedMovie, setSelectedMovie] = useState("iddlfkjalsdfj");
+  const [selectedMovie, setSelectedMovie] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
 
@@ -117,6 +115,19 @@ export default function App() {
     }
   }, [query]);
 
+  const selectMovieHandler = function (id) {
+    if (id === selectedMovie) {
+      closeSelectedMovieHandler();
+      return;
+    }
+
+    setSelectedMovie(id);
+  };
+
+  const closeSelectedMovieHandler = function () {
+    setSelectedMovie(null);
+  };
+
   return (
     <>
       <Header>
@@ -126,7 +137,13 @@ export default function App() {
 
       <main className="main">
         <MoviesBox>
-          {!isLoading && !error && <MoviesList movies={movies} />}
+          {!isLoading && !error && (
+            <MoviesList
+              movies={movies}
+              onSelectMovie={selectMovieHandler}
+              selectedMovie={selectedMovie}
+            />
+          )}
 
           {isLoading && <Loader />}
 
@@ -134,9 +151,17 @@ export default function App() {
         </MoviesBox>
 
         <WatchedMoviesBox>
-          <WatchedMoviesSummary watchedMovies={watched} />
-          <WatchedMoviesList watchedMovies={watched} />
-          <MovieDetails movieId={selectedMovie} />
+          {selectedMovie ? (
+            <MovieDetails
+              movieId={selectedMovie}
+              onCloseSelectedMovie={closeSelectedMovieHandler}
+            />
+          ) : (
+            <>
+              <WatchedMoviesSummary watchedMovies={watched} />
+              <WatchedMoviesList watchedMovies={watched} />
+            </>
+          )}
         </WatchedMoviesBox>
       </main>
     </>
