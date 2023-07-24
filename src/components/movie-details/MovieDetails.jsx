@@ -7,14 +7,29 @@ import ErrorMessage from "../UI/ErrorMessage";
 
 const KEY = "23f80004";
 
-export default function MovieDetails({ movieId, onCloseSelectedMovie }) {
+export default function MovieDetails({
+  movieId,
+  onCloseSelectedMovie,
+  onAddWatchedMovie,
+  watchedMovieList,
+}) {
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+
+  /**
+   ** get movie details if the movie watched before
+   */
+
+  const isWatched = watchedMovieList.some((movie) => movie.imdbID === movieId);
+  const watchedUserRating = watchedMovieList.find(
+    (movie) => movie.imdbID === movieId
+  )?.userRating;
 
   let {
     Title: title,
-    // Year: year,
+    Year: year,
     Poster: poster,
     Runtime: runtime,
     imdbRating,
@@ -43,7 +58,6 @@ export default function MovieDetails({ movieId, onCloseSelectedMovie }) {
         }
 
         setMovie(response.data);
-        console.log(response.data);
       } catch (error) {
         console.log(error);
         setError(error);
@@ -54,6 +68,20 @@ export default function MovieDetails({ movieId, onCloseSelectedMovie }) {
 
     fetchData();
   }, [movieId]);
+
+  const clickHandler = function () {
+    const newWatchedMovie = {
+      imdbID: movieId,
+      title,
+      year,
+      poster,
+      imdbRating,
+      userRating,
+      runtime: parseInt(runtime),
+    };
+
+    onAddWatchedMovie(newWatchedMovie);
+  };
 
   return (
     <div className="details">
@@ -88,8 +116,28 @@ export default function MovieDetails({ movieId, onCloseSelectedMovie }) {
 
           <section>
             <div className="rating">
-              <StarRating shwoRatingResult size={24} maxRating={10} />
+              {!isWatched ? (
+                <>
+                  <StarRating
+                    shwoRatingResult
+                    size={24}
+                    maxRating={10}
+                    onRating={setUserRating}
+                  />
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={clickHandler}>
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p className="userrating-message">
+                  You rated this movie with ({" "}
+                  <span>{watchedUserRating} ⭐️</span> )
+                </p>
+              )}
             </div>
+
             <p>
               <em>{plot}</em>
             </p>

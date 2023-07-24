@@ -2,8 +2,14 @@
 export default function WatchedMoviesListItem({ movie }) {
   return (
     <li>
-      <img src={movie.Poster} alt={`${movie.Title} poster`} />
-      <h3>{movie.Title}</h3>
+      <img
+        src={movie.poster}
+        alt={`${movie.title} poster`}
+        onError={function (img) {
+          img.target.src = "https://fakeimg.pl/200x300/eee/909090?text=‎";
+        }}
+      />
+      <h3>{movie.title}</h3>
       <div>
         <p>
           <span>⭐️</span>

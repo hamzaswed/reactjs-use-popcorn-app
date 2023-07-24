@@ -14,6 +14,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scrollbar-width: none;
 }
 
 html {
@@ -357,6 +358,20 @@ body {
   justify-content: center;
 }
 
+.warning-message {
+  color: var(--color-red);
+  margin-top: -1.2rem;
+  padding: 0 1.5rem;
+}
+
+.userrating-message {
+  text-align: center;
+}
+
+.userrating-message span {
+  color: #ffd43b;
+}
+
 /*
 SPACING SYSTEM (px)
 2 / 4 / 8 / 12 / 16 / 24 / 32 / 40 / 48 / 64 / 80 / 96 / 128
@@ -367,6 +382,7 @@ FONT SIZE SYSTEM (px)
 
 /*
 FULL STAR
+
 
 <svg
   xmlns="http://www.w3.org/2000/svg"
