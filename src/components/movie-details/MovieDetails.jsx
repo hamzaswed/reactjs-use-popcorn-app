@@ -69,6 +69,14 @@ export default function MovieDetails({
     fetchData();
   }, [movieId]);
 
+  useEffect(() => {
+    document.title = title ? `Movie | ${title}` : "usePopcorn";
+
+    return () => {
+      document.title = "usePopcorn";
+    };
+  }, [title]);
+
   const clickHandler = function () {
     const newWatchedMovie = {
       imdbID: movieId,

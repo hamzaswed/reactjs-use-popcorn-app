@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-export default function WatchedMoviesListItem({ movie }) {
+export default function WatchedMoviesListItem({ movie, onDeleteWatchedMovie }) {
   return (
     <li>
       <img
@@ -23,6 +23,13 @@ export default function WatchedMoviesListItem({ movie }) {
           <span>⏳</span>
           <span>{movie.runtime} min</span>
         </p>
+
+        <button
+          className="btn-delete"
+          onClick={onDeleteWatchedMovie.bind(null, movie.imdbID)}
+        >
+          X
+        </button>
       </div>
     </li>
   );

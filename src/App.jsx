@@ -133,6 +133,10 @@ export default function App() {
     setSelectedMovie(null);
   };
 
+  const deleteWatchedMovieHandler = function (id) {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  };
+
   return (
     <>
       <Header>
@@ -167,7 +171,10 @@ export default function App() {
           ) : (
             <>
               <WatchedMoviesSummary watchedMovies={watched} />
-              <WatchedMoviesList watchedMovies={watched} />
+              <WatchedMoviesList
+                watchedMovies={watched}
+                onDeleteWatchedMovie={deleteWatchedMovieHandler}
+              />
             </>
           )}
         </WatchedMoviesBox>
