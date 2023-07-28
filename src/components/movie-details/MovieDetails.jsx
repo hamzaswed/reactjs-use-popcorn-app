@@ -41,6 +41,7 @@ export default function MovieDetails({
     Genre: genre,
   } = movie;
 
+  console.log(movie);
   const clickHandler = function () {
     const newWatchedMovie = {
       imdbID: movieId,
@@ -61,7 +62,7 @@ export default function MovieDetails({
         setIsLoading(true);
         setError(false);
 
-        const response = await axios("http://www.omdbapi.com/", {
+        const response = await axios("https://www.omdbapi.com/", {
           params: {
             apikey: KEY,
             i: movieId,

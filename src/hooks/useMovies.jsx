@@ -24,7 +24,7 @@ export function useMovies(query, callback) {
         setIsLoading(true);
         setError(false);
 
-        const response = await axios("http://www.omdbapi.com/", {
+        const response = await axios("https://www.omdbapi.com/", {
           params: {
             apikey: KEY,
             s: query,
