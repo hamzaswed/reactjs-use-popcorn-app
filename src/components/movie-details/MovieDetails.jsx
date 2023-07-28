@@ -73,7 +73,7 @@ export default function MovieDetails({
 
         setMovie(response.data);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         setError(error);
       } finally {
         setIsLoading(false);

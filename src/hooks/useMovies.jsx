@@ -9,9 +9,10 @@ function runAfterTime(fun, time = 500) {
   }, time);
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 const KEY = "23f80004";
 
-export function useMovies(query) {
+export function useMovies(query, callback) {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -19,6 +20,7 @@ export function useMovies(query) {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        callback?.();
         setIsLoading(true);
         setError(false);
 
@@ -35,7 +37,7 @@ export function useMovies(query) {
 
         setMovies(response.data.Search);
       } catch (error) {
-        console.log(error);
+        // console.error(error);
         setError(error);
       } finally {
         setIsLoading(false);
@@ -48,7 +50,7 @@ export function useMovies(query) {
       setMovies([]);
       setError(false);
     }
-  }, [query]);
+  }, [query, callback]);
 
   return {
     movies,
