@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { useMovies } from "./hooks/useMovies";
 import { useLocalstorage } from "./hooks/useLocalstorage";
+import { useKey } from "./hooks/useKey";
 
 // Components
 import Header from "./components/layout/Header";
@@ -47,6 +48,7 @@ export default function App() {
     query,
     closeSelectedMovieHandler
   );
+  useKey(closeSelectedMovieHandler, "Escape");
 
   return (
     <>

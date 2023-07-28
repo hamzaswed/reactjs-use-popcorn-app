@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
+
 import axios from "axios";
 import StarRating from "../UI/StarRating";
 import Loader from "../UI/Loader";
@@ -90,18 +91,6 @@ export default function MovieDetails({
       document.title = "usePopcorn";
     };
   }, [title]);
-
-  useEffect(() => {
-    function callback(e) {
-      if (e.key === "Escape") {
-        onCloseSelectedMovie();
-      }
-    }
-
-    document.addEventListener("keydown", callback);
-
-    return () => document.removeEventListener("keydown", callback);
-  }, [onCloseSelectedMovie]);
 
   return (
     <div className="details">
