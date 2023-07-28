@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-
-// Third-Party Libraries
-import axios from "axios";
+import { useMovies } from "./hooks/useMovies";
 
 // Components
 import Header from "./components/layout/Header";
@@ -16,25 +14,12 @@ import MovieDetails from "./components/movie-details/MovieDetails";
 import Loader from "./components/UI/Loader";
 import ErrorMessage from "./components/UI/ErrorMessage";
 
-const KEY = "23f80004";
-
-let theFunctionWillRun;
-function runAfterTime(fun, time = 500) {
-  clearTimeout(theFunctionWillRun);
-  theFunctionWillRun = setTimeout(() => {
-    fun();
-  }, time);
-}
-
 export default function App() {
   const [query, setQuery] = useState("");
-  const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState(
     () => JSON.parse(localStorage.getItem("watched")) || []
   );
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
 
   const selectMovieHandler = function (id) {
     if (id === selectedMovie) {
@@ -62,39 +47,7 @@ export default function App() {
     localStorage.setItem("watched", JSON.stringify(watched));
   }, [watched]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        setError(false);
-
-        const response = await axios("http://www.omdbapi.com/", {
-          params: {
-            apikey: KEY,
-            s: query,
-          },
-        });
-
-        if (response.data.Error) {
-          throw new Error(response.data.Error);
-        }
-
-        setMovies(response.data.Search);
-      } catch (error) {
-        console.log(error);
-        setError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    if (query.length) {
-      runAfterTime(fetchData, 500);
-    } else {
-      setMovies([]);
-      setError(false);
-    }
-  }, [query]);
+  const { movies, isLoading, error } = useMovies(query);
 
   return (
     <>

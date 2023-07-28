@@ -92,17 +92,15 @@ export default function MovieDetails({
   }, [title]);
 
   useEffect(() => {
-    function onEscKeyClick(e) {
+    function callback(e) {
       if (e.key === "Escape") {
         onCloseSelectedMovie();
       }
     }
 
-    document.addEventListener("keydown", onEscKeyClick);
+    document.addEventListener("keydown", callback);
 
-    return () => {
-      document.removeEventListener("keydown", onEscKeyClick);
-    };
+    return () => document.removeEventListener("keydown", callback);
   }, [onCloseSelectedMovie]);
 
   return (
