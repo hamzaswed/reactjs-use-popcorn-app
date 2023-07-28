@@ -40,6 +40,20 @@ export default function MovieDetails({
     Genre: genre,
   } = movie;
 
+  const clickHandler = function () {
+    const newWatchedMovie = {
+      imdbID: movieId,
+      title,
+      year,
+      poster,
+      imdbRating,
+      userRating,
+      runtime: parseInt(runtime),
+    };
+
+    onAddWatchedMovie(newWatchedMovie);
+  };
+
   useEffect(() => {
     const fetchData = async function () {
       try {
@@ -90,20 +104,6 @@ export default function MovieDetails({
       document.removeEventListener("keydown", onEscKeyClick);
     };
   }, [onCloseSelectedMovie]);
-
-  const clickHandler = function () {
-    const newWatchedMovie = {
-      imdbID: movieId,
-      title,
-      year,
-      poster,
-      imdbRating,
-      userRating,
-      runtime: parseInt(runtime),
-    };
-
-    onAddWatchedMovie(newWatchedMovie);
-  };
 
   return (
     <div className="details">
